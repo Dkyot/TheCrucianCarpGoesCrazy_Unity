@@ -1,0 +1,59 @@
+# Ignore libraries and temporary files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+
+# Ignore Unity cache
+/[Aa]ssets/Plugins/*/*.meta
+
+# Ignore user settings and local files
+/[Uu]ser[Ss]ettings/
+
+# Ignore platform-specific builds
+*.apk
+*.aab
+*.unitypackage
+
+# Temporary files from IDEs and editors
+.DS_Store
+*.swp
+*.swo
+*.bak
+*.tmp
+*.userprefs
+
+# Ignore IDE configurations
+.vscode/
+.idea/
+*.sln
+*.csproj
+
+# Ignore platform files
+/ExportedObj/
+*.pidb
+*.booproj
+*.svd
+
+# Ignore temporary Unity files
+/[Aa]ssets/Plugins/*/.*.meta
+
+# Ignore Addressable Assets build cache
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+
+# Exclude personal build settings
+/Packages/manifest.json.meta
+/Packages/packages-lock.json.meta
+
+# Exclude Collaborate content
+/[Cc]ollaborate/
+
+# If Plastic SCM is used
+/PlasticSCM/
+.glue/
+
+# If Unity Hub is used
+UnityHub/
