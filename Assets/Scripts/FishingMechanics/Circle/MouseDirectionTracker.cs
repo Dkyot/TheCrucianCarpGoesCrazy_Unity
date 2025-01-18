@@ -8,14 +8,14 @@ public class MouseDirectionTracker : MonoBehaviour
     private Vector2 _currentDirection;
     private float _magnitude = 0f;
 
-    [SerializeField] private InputActionAsset inputActions;
-    private InputAction mouseDeltaAction;
+    [SerializeField] private InputActionAsset _inputActions;
+    private InputAction _mouseDeltaAction;
 
-    private float decayRate = 10f;
-    private int smoothingFrames = 50;
-    private Queue<Vector2> velocityHistory = new Queue<Vector2>();
+    private float _decayRate = 10f;
+    private int _smoothingFrames = 50;
+    private Queue<Vector2> _velocityHistory = new Queue<Vector2>();
 
-    [SerializeField] private DirectionGizmoDrawer _gizmoDrawer;
+    //[SerializeField] private DirectionGizmoDrawer _gizmoDrawer;
 
     private void Update()
     {
@@ -23,17 +23,17 @@ public class MouseDirectionTracker : MonoBehaviour
         CalculateAverageVelocity();
 
         // Gizmo
-        if (_gizmoDrawer != null) _gizmoDrawer.direction = new Vector3(_currentDirection.x, _currentDirection.y, 0) * _magnitude;
+        //if (_gizmoDrawer != null) _gizmoDrawer.direction = new Vector3(_currentDirection.x, _currentDirection.y, 0) * _magnitude;
     }
 
     private void OnMouseMove(InputAction.CallbackContext context)
     {
         Vector2 delta = context.ReadValue<Vector2>();
 
-        velocityHistory.Enqueue(delta);
-        if (velocityHistory.Count > smoothingFrames)
+        _velocityHistory.Enqueue(delta);
+        if (_velocityHistory.Count > _smoothingFrames)
         {
-            velocityHistory.Dequeue();
+            _velocityHistory.Dequeue();
         }
         
         _currentVelocity = delta;
@@ -51,25 +51,25 @@ public class MouseDirectionTracker : MonoBehaviour
     private void UpdateDecayedHistory()
     {
         Queue<Vector2> decayedHistory = new Queue<Vector2>();
-        foreach (var velocity in velocityHistory)
+        foreach (var velocity in _velocityHistory)
         {
-            var decayedVelocity = Vector2.Lerp(velocity, Vector2.zero, decayRate * Time.deltaTime);
+            var decayedVelocity = Vector2.Lerp(velocity, Vector2.zero, _decayRate * Time.deltaTime);
             decayedHistory.Enqueue(decayedVelocity);
         }
 
-        velocityHistory = decayedHistory;
+        _velocityHistory = decayedHistory;
     }
 
     private void CalculateAverageVelocity()
     {
-        if (velocityHistory.Count > 0)
+        if (_velocityHistory.Count > 0)
         {
             Vector2 averageVelocity = Vector2.zero;
-            foreach (var velocity in velocityHistory)
+            foreach (var velocity in _velocityHistory)
             {
                 averageVelocity += velocity;
             }
-            averageVelocity /= velocityHistory.Count;
+            averageVelocity /= _velocityHistory.Count;
             
             _currentVelocity = averageVelocity;
             _currentDirection = _currentVelocity.normalized;
@@ -82,20 +82,17 @@ public class MouseDirectionTracker : MonoBehaviour
     #region EventSubscription
     private void OnEnable()
     {
-        // Инициализация Action из InputActionAsset
-        var actionMap = inputActions.FindActionMap("MouseControls");
-        mouseDeltaAction = actionMap.FindAction("MouseDelta");
+        var actionMap = _inputActions.FindActionMap("MouseControls");
+        _mouseDeltaAction = actionMap.FindAction("MouseDelta");
 
-        // Включаем и подписываемся на событие
-        mouseDeltaAction.Enable();
-        mouseDeltaAction.performed += OnMouseMove;
+        _mouseDeltaAction.Enable();
+        _mouseDeltaAction.performed += OnMouseMove;
     }
 
     private void OnDisable()
     {
-        // Отписываемся и отключаем Action
-        mouseDeltaAction.performed -= OnMouseMove;
-        mouseDeltaAction.Disable();
+        _mouseDeltaAction.performed -= OnMouseMove;
+        _mouseDeltaAction.Disable();
     }
     #endregion
 }

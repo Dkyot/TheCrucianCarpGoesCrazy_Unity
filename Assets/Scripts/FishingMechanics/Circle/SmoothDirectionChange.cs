@@ -6,7 +6,7 @@ public class SmoothDirectionChange : MonoBehaviour
     private Vector2 _targetDirection;
     private float _changeSpeed = 2f;
 
-    [SerializeField] private DirectionGizmoDrawer _gizmoDrawer;
+    //[SerializeField] private DirectionGizmoDrawer _gizmoDrawer;
 
     private void Start()
     {
@@ -23,7 +23,7 @@ public class SmoothDirectionChange : MonoBehaviour
         }
 
         // Gizmo
-        if (_gizmoDrawer != null) _gizmoDrawer.direction = new Vector3(_currentDirection.x, _currentDirection.y, 0);
+        //if (_gizmoDrawer != null) _gizmoDrawer.direction = new Vector3(_currentDirection.x, _currentDirection.y, 0);
     }
 
     #region PublicMethods
@@ -33,3 +33,6 @@ public class SmoothDirectionChange : MonoBehaviour
     }
     #endregion
 }
+
+
+//TODO случайное значение в диапазоне (чтобы рыба не находилась в центре). диапазон может быть больше 1
