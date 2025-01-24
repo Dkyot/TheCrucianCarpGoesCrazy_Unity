@@ -13,6 +13,11 @@ public class CalculatingProgressCircle : MonoBehaviour
 
     [SerializeField] private VectorDifferenceCalculator _vectorDifference;
 
+    private void Start()
+    {
+        _progress = _startProgress;
+    }
+
     private void Update()
     {
         UpdateProgress();

@@ -8,7 +8,12 @@ public class VectorDifferenceCalculator : MonoBehaviour
     private float _dampingSpeed = 5f;
     private Vector2 _resultDirection;
 
-    //[SerializeField] private DirectionGizmoDrawer _gizmoDrawer;
+    [SerializeField] private Vector2SOEvent vector2Event;
+
+    public void TriggerVector2Event(Vector2 value)
+    {
+        vector2Event.Raise(value);
+    }
 
     private void Update()
     {
@@ -20,8 +25,7 @@ public class VectorDifferenceCalculator : MonoBehaviour
             Vector2 targetDirection = smoothDirection + mouseDirection;
             _resultDirection = Vector2.Lerp(_resultDirection, targetDirection, _dampingSpeed * Time.deltaTime);
 
-            // Gizmo
-            //if (_gizmoDrawer != null) _gizmoDrawer.direction = new Vector3(_resultDirection.x, _resultDirection.y, 0);
+            TriggerVector2Event(_resultDirection);//!------
         }
     }
 

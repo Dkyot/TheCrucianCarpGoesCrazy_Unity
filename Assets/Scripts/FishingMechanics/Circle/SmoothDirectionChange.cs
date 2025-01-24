@@ -6,7 +6,12 @@ public class SmoothDirectionChange : MonoBehaviour
     private Vector2 _targetDirection;
     private float _changeSpeed = 2f;
 
-    //[SerializeField] private DirectionGizmoDrawer _gizmoDrawer;
+    [SerializeField] private Vector2SOEvent vector2Event;
+
+    public void TriggerVector2Event(Vector2 value)
+    {
+        vector2Event.Raise(value);
+    }
 
     private void Start()
     {
@@ -22,8 +27,7 @@ public class SmoothDirectionChange : MonoBehaviour
             _targetDirection = Random.insideUnitCircle.normalized;
         }
 
-        // Gizmo
-        //if (_gizmoDrawer != null) _gizmoDrawer.direction = new Vector3(_currentDirection.x, _currentDirection.y, 0);
+        TriggerVector2Event(_currentDirection);//!------
     }
 
     #region PublicMethods

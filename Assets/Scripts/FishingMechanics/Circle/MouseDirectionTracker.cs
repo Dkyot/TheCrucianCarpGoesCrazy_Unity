@@ -6,6 +6,7 @@ public class MouseDirectionTracker : MonoBehaviour
 {
     private Vector2 _currentVelocity;
     private Vector2 _currentDirection;
+    private Vector2 _currentDirectionMagnitude;
     private float _magnitude = 0f;
 
     [SerializeField] private InputActionAsset _inputActions;
@@ -15,15 +16,20 @@ public class MouseDirectionTracker : MonoBehaviour
     private int _smoothingFrames = 50;
     private Queue<Vector2> _velocityHistory = new Queue<Vector2>();
 
-    //[SerializeField] private DirectionGizmoDrawer _gizmoDrawer;
+    [SerializeField] private Vector2SOEvent vector2Event;
+
+    public void TriggerVector2Event(Vector2 value)
+    {
+        vector2Event.Raise(value);
+    }
 
     private void Update()
     {
         UpdateDecayedHistory();
         CalculateAverageVelocity();
 
-        // Gizmo
-        //if (_gizmoDrawer != null) _gizmoDrawer.direction = new Vector3(_currentDirection.x, _currentDirection.y, 0) * _magnitude;
+        _currentDirectionMagnitude = _currentDirection * _magnitude;
+        TriggerVector2Event(_currentDirectionMagnitude);//!------
     }
 
     private void OnMouseMove(InputAction.CallbackContext context)
